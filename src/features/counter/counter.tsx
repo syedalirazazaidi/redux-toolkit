@@ -13,6 +13,7 @@ export function Counter() {
   const dispatch = useAppDispatch();
   return (
     <div>
+      <h2>Simple Counter</h2>
       Counter{count}{" "}
       <button onClick={() => dispatch(increment())}>increment</button>
       <button onClick={() => dispatch(decrement())}>decrement</button>
