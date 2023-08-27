@@ -9,9 +9,6 @@ export function Counter() {
     dispatch(reset());
     setValue(0);
   };
-  //   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //     setValue(+e.target.value);
-  //   };
 
   const dispatch = useAppDispatch();
   return (
