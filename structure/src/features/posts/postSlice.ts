@@ -18,8 +18,9 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postAdded: (state, action) => {
-      state.push(action.payload);
+    postAdded: (state, { payload }) => {
+      console.log(payload);
+      state.push(payload);
 
       //   prepare(title, comment) {
       //     return {

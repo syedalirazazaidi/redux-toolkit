@@ -2,10 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import {
-  useAppDispatch,
-  // useAppSelector
-} from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import {
   Card,
@@ -15,32 +12,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { postAdded } from "./postSlice";
 import { nanoid } from "nanoid";
-// interface FormType {
-//   title: string;
-//   comment: string;
-// }
 export default function AddForm() {
+  const user = useAppSelector((state) => state.user);
+
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
-  const dispatch = useAppDispatch();
+  const [userId, setUserId] = useState("");
 
+  const dispatch = useAppDispatch();
   const handletitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+  const isData: boolean = Boolean(title) && Boolean(comment) && Boolean(userId);
   const handlecommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (title && comment) {
-      dispatch(postAdded({ title, comment, id: nanoid() }));
+      dispatch(postAdded({ title, comment, id: nanoid(), userId }));
       setTitle(""), setComment("");
     }
   };
   const resetState = () => {
     setTitle(""), setComment("");
+  };
+
+  const onAuth = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(event.target.value);
   };
   return (
     <Card className="w-[350px] mx-auto bg-gray-200 mt-8">
@@ -72,12 +74,20 @@ export default function AddForm() {
               />
             </div>
           </div>
+          <select className="w-[293px] mt-10 p-2 rounded" onChange={onAuth}>
+            <option>Please choose one option</option>
+
+            {user &&
+              user.map(({ user, id }) => <option key={id}>{user}</option>)}
+          </select>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline" onClick={resetState}>
             Cancel
           </Button>
-          <Button type="submit">Save Post</Button>
+          <Button disabled={!isData} type="submit">
+            Save Post
+          </Button>
         </CardFooter>
       </form>
     </Card>
