@@ -11,7 +11,7 @@ interface PostState {
 const initialState: PostState[] = [
   { id: 1, title: "Learing Redux toolkit", comment: "I have heard this thing" },
   { id: 2, title: "pizzza...", comment: "I have heard this thing" },
-  { id: 2, title: "slice ...", comment: "Thie more i say slice" },
+  { id: 3, title: "slice ...", comment: "Thie more i say slice" },
 ];
 
 export const postsSlice = createSlice({
@@ -20,6 +20,16 @@ export const postsSlice = createSlice({
   reducers: {
     postAdded: (state, action) => {
       state.push(action.payload);
+
+      //   prepare(title, comment) {
+      //     return {
+      //       payload: {
+      //         id: nanoid(),
+      //         title,
+      //         comment,
+      //       },
+      //     };
+      //   },
     },
     // increment: (state) => {
     //   state.value += 1;
