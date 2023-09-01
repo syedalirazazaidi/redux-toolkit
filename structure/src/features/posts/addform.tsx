@@ -33,10 +33,26 @@ export default function AddForm() {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (title && comment) {
-      dispatch(postAdded({ title, comment, id: nanoid(), userId }));
+      dispatch(
+        postAdded({
+          title,
+          comment,
+          date: new Date().toISOString(),
+          id: nanoid(),
+          userId,
+          reactions: {
+            thumbsUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0,
+          },
+        })
+      );
       setTitle(""), setComment("");
     }
   };
+
   const resetState = () => {
     setTitle(""), setComment("");
   };

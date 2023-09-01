@@ -6,21 +6,21 @@ interface UserState {
 }
 const initialState: UserState[] = [
   { id: 1, user: "aliraza" },
-  { id: 2, user: "khurram..." },
-  { id: 3, user: "hassan ..." },
+  { id: 2, user: "khurram" },
+  { id: 3, user: "hassan" },
 ];
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    postAdded: (state, action) => {
-      state.push(action.payload);
-    },
+    // postAdded: (state, action) => {
+    //   state.push(action.payload);
+    // },
   },
 });
 
-export const { postAdded } = usersSlice.actions;
+// export const { postAdded } = usersSlice.actions;
 
 export const selectAllPost = (state: RootState) => state.user;
 
