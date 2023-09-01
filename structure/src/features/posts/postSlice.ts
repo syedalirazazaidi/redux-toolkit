@@ -1,17 +1,63 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
+import { sub } from "date-fns";
 
-interface PostState {
+export interface PostState {
   id: number;
   title: string;
   comment: string;
+  userId?: string;
+  date?: string;
+  reactions: Reactions;
 }
+export type Reactions = {
+  thumbsUp: number;
+  wow: number;
+  heart: number;
+  rocket: number;
+  coffee: number;
+};
 
 const initialState: PostState[] = [
-  { id: 1, title: "Learing Redux toolkit", comment: "I have heard this thing" },
-  { id: 2, title: "pizzza...", comment: "I have heard this thing" },
-  { id: 3, title: "slice ...", comment: "Thie more i say slice" },
+  {
+    id: 1,
+    title: "Learing Redux toolkit",
+    comment: "I have heard this thing",
+    date: sub(new Date(), { minutes: 10 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
+  },
+  {
+    id: 2,
+    title: "pizzza...",
+    comment: "I have heard this thing",
+    date: sub(new Date(), { minutes: 15 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
+  },
+  {
+    id: 3,
+    title: "slice ...",
+    comment: "Thie more i say slice",
+    date: sub(new Date(), { minutes: 20 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
+  },
 ];
 
 export const postsSlice = createSlice({
@@ -19,35 +65,20 @@ export const postsSlice = createSlice({
   initialState,
   reducers: {
     postAdded: (state, { payload }) => {
-      console.log(payload);
+      console.log(payload, "PAYLOD");
       state.push(payload);
-
-      //   prepare(title, comment) {
-      //     return {
-      //       payload: {
-      //         id: nanoid(),
-      //         title,
-      //         comment,
-      //       },
-      //     };
-      //   },
     },
-    // increment: (state) => {
-    //   state.value += 1;
-    // },
-    // decrement: (state) => {
-    //   state.value -= 1;
-    // },
-    // reset: (state) => {
-    //   state.value = 0;
-    // },
-    // incrementByAmount: (state, action: PayloadAction<number>) => {
-    //   state.value += action.payload;
-    // },
+    reactionAdded(state, { payload }) {
+      const { postId, reaction } = payload;
+      const existingPost: any = state.find((post) => post.id === postId);
+      if (existingPost) {
+        existingPost.reactions[reaction]++;
+      }
+    },
   },
 });
 
-export const { postAdded } = postsSlice.actions;
+export const { postAdded, reactionAdded } = postsSlice.actions;
 
 export const selectAllPost = (state: RootState) => state.post;
 
