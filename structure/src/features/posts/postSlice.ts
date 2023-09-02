@@ -59,18 +59,17 @@ const initialState: PostState[] = [
     },
   },
 ];
-
+// post async middleware
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
     postAdded: (state, { payload }) => {
-      console.log(payload, "PAYLOD");
       state.push(payload);
     },
     reactionAdded(state, { payload }) {
       const { postId, reaction } = payload;
-      const existingPost: any = state.find((post) => post.id === postId);
+      const existingPost = state.find((post) => post.id === postId);
       if (existingPost) {
         existingPost.reactions[reaction]++;
       }
